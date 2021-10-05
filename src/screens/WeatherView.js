@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Text, PermissionsAndroid} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import Searcher from './../components/Searcher';
 import WeatherInfo from './../components/WeatherInfo';
-import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
+import {usePermission} from './../hooks/usePermission';
 
 export default function WeatherView() {
   const [info, setInfo] = useState({
@@ -14,53 +14,7 @@ export default function WeatherView() {
     icon: '',
   });
   const [recentSearch, setRecentSearch] = useState([]);
-  const [error, setError] = useState('');
-  const [location, setLocation] = useState({lat: 0, long: 0});
-
-  //запрашиваем разрешение пользователя на обработку геолокации
-  //устанавливаем координаты пользователя
-  useEffect(() => {
-    const hasLocationPermission = getPermission();
-    if (hasLocationPermission) {
-      Geolocation.getCurrentPosition(
-        position => {
-          setLocation({
-            ...location,
-            lat: position.coords.latitude,
-            long: position.coords.longitude,
-          });
-        },
-        error => {
-          if (error.code === 5) {
-            setError(
-              'Невозможно определить Ваше местоположение без разрешения',
-            );
-          } else console.error(error.code, error.message);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 10000,
-        },
-      );
-    }
-  }, []);
-
-  //достаем boolean разрешение пользователя
-  const getPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  const {location, error} = usePermission(); //определяем местоположение пользователя
 
   //обработчик нажатия на кнопку в Searcher
   //обращаемся к апихе за погодой по названию города из TextInput в том же компоненте
@@ -83,6 +37,7 @@ export default function WeatherView() {
           desc: res.data?.weather[0].description,
           icon: res.data?.weather[0].icon,
         });
+        //Запоминаем город, который искал пользователь
         if (!recentSearch.includes(city)) {
           setRecentSearch([...recentSearch, city]);
         }

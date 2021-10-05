@@ -19,7 +19,7 @@ export default function Searcher({fetchWeather, recentSearch}) {
       .then(res => setCities(res.data.location.address.slice(0, 7)));
   };
 
-  //Обработчик нажатия на предложенный вариант от апихи
+  //Обработчик нажатия на предложенный вариант города от апихи
   const autoCompleteHandler = item => {
     setInputValue(() => item);
     setCities(() => []);
