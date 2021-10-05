@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Avatar, TextInput, RadioButton, Button} from 'react-native-paper';
 import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
-import {global} from './../styles/global';
+import {global} from './../styles/global.style';
 import {account} from './../styles/account.style';
 
 export default function Account() {

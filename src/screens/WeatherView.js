@@ -14,7 +14,7 @@ export default function WeatherView() {
     icon: '',
   });
   const [recentSearch, setRecentSearch] = useState([]);
-  const {location, localInfo, error} = usePermission(); //определяем местоположение пользователя
+  const {localInfo} = usePermission(); //определяем местоположение пользователя
 
   //обработчик нажатия на кнопку в Searcher
   //обращаемся к апихе за погодой по названию города из TextInput в том же компоненте

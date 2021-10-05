@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, FlatList, Text} from 'react-native';
 import {TextInput, Button, Card} from 'react-native-paper';
 import axios from 'axios';
-import {global} from './../styles/global';
+import {global} from '../styles/global.style';
 import {searcher} from '../styles/searcher.style';
 
 export default function Searcher({fetchWeather, recentSearch}) {
