@@ -42,7 +42,7 @@ export default function WeatherView() {
           setRecentSearch([...recentSearch, city]);
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error('Такого города не найдено!'));
   };
 
   return (
