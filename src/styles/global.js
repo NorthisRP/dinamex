@@ -14,6 +14,7 @@ export const global = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   column: {
     alignItems: 'center',

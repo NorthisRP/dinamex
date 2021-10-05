@@ -12,11 +12,13 @@ export default function Searcher({fetchWeather, recentSearch}) {
   //ищем совпадающие названия городов из значения InputValue
   const fetchCities = async text => {
     setInputValue(text);
+    if (!text) return setCities([]);
     axios
       .get(
         `https://api.weather.com/v3/location/search?apiKey=6532d6454b8aa370768e63d6ba5a832e&language=en-US&query=${text}&locationType=city&format=json`,
       )
-      .then(res => setCities(res.data.location.address.slice(0, 7)));
+      .then(res => setCities(res.data.location.address.slice(0, 5)))
+      .catch(err => {});
   };
 
   //Обработчик нажатия на предложенный вариант города от апихи
@@ -27,14 +29,16 @@ export default function Searcher({fetchWeather, recentSearch}) {
 
   return (
     <View>
-      <TextInput
-        theme={{colors: {primary: '#00aaff'}}}
-        style={global.input}
-        label="City name"
-        value={inputValue}
-        onChangeText={text => fetchCities(text)}
-      />
-      <View>
+      <View style={global.row}>
+        <TextInput
+          theme={{colors: {primary: '#00aaff', background: 'white'}}}
+          style={global.input}
+          label="City name"
+          value={inputValue}
+          onChangeText={text => fetchCities(text)}
+        />
+      </View>
+      <View style={global.row}>
         <FlatList
           data={cities}
           renderItem={({item}) => {
@@ -51,7 +55,7 @@ export default function Searcher({fetchWeather, recentSearch}) {
       </View>
       {recentSearch.length ? (
         <View>
-          <Text>Recently you searched: </Text>
+          <Text style={{textAlign: 'center'}}>Recently you searched: </Text>
           <FlatList
             data={recentSearch}
             renderItem={({item}) => {
@@ -67,13 +71,15 @@ export default function Searcher({fetchWeather, recentSearch}) {
           />
         </View>
       ) : null}
-      <Button
-        onPress={() => fetchWeather(inputValue)}
-        icon="magnify"
-        mode="contained"
-        style={global.button}>
-        Check weather
-      </Button>
+      <View style={global.row}>
+        <Button
+          onPress={() => fetchWeather(inputValue)}
+          icon="magnify"
+          mode="contained"
+          style={global.button}>
+          Check weather
+        </Button>
+      </View>
     </View>
   );
 }

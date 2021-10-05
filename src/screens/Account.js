@@ -52,14 +52,14 @@ export default function Account() {
       </TouchableOpacity>
       <TextInput
         style={global.input}
-        theme={{colors: {primary: '#00aaff'}}}
+        theme={{colors: {primary: '#00aaff', background: 'white'}}}
         label="Name"
         value={data.name}
         onChangeText={text => setData({...data, name: text})}
       />
       <TextInput
         style={global.input}
-        theme={{colors: {primary: '#00aaff'}}}
+        theme={{colors: {primary: '#00aaff', background: 'white'}}}
         label="Birthday"
         value={data.birthday.toLocaleDateString()}
         onChangeText={text => setData({...data, birthday: text})}
@@ -80,14 +80,14 @@ export default function Account() {
       </RadioButton.Group>
       <TextInput
         style={global.input}
-        theme={{colors: {primary: '#00aaff'}}}
+        theme={{colors: {primary: '#00aaff', background: 'white'}}}
         label="Address"
         value={data.address}
         onChangeText={text => setData({...data, address: text})}
       />
       <TextInput
         style={global.input}
-        theme={{colors: {primary: '#00aaff'}}}
+        theme={{colors: {primary: '#00aaff', background: 'white'}}}
         label="Id"
         value={data.id}
         onChangeText={text => setData({...data, id: text})}
