@@ -18,7 +18,9 @@ export default function Searcher({fetchWeather, recentSearch}) {
         `https://api.weather.com/v3/location/search?apiKey=6532d6454b8aa370768e63d6ba5a832e&language=en-US&query=${text}&locationType=city&format=json`,
       )
       .then(res => setCities(res.data.location.address.slice(0, 5)))
-      .catch(err => {});
+      .catch(err => {
+        console.error('Отсутствует подключение к тырнету');
+      });
   };
 
   //Обработчик нажатия на предложенный вариант города от апихи
@@ -38,37 +40,31 @@ export default function Searcher({fetchWeather, recentSearch}) {
           onChangeText={text => fetchCities(text)}
         />
       </View>
-      <View style={global.row}>
-        <FlatList
-          data={cities}
-          renderItem={({item}) => {
-            return (
-              <Card
-                style={searcher.card}
-                onPress={() => autoCompleteHandler(item)}>
-                <Text>{item}</Text>
-              </Card>
-            );
-          }}
-          keyExtractor={item => item}
-        />
+      <View style={global.column}>
+        {cities.map(city => {
+          return (
+            <Card
+              key={city}
+              style={searcher.card}
+              onPress={() => autoCompleteHandler(city)}>
+              <Text>{city}</Text>
+            </Card>
+          );
+        })}
       </View>
       {recentSearch.length ? (
         <View>
           <Text style={{textAlign: 'center'}}>Recently you searched: </Text>
-          <FlatList
-            data={recentSearch}
-            renderItem={({item}) => {
-              return (
-                <Card
-                  style={searcher.card}
-                  onPress={() => autoCompleteHandler(item)}>
-                  <Text>{item}</Text>
-                </Card>
-              );
-            }}
-            keyExtractor={item => item}
-          />
+          {recentSearch.map(city => {
+            return (
+              <Card
+                key={city}
+                style={searcher.card}
+                onPress={() => autoCompleteHandler(city)}>
+                <Text>{city}</Text>
+              </Card>
+            );
+          })}
         </View>
       ) : null}
       <View style={global.row}>

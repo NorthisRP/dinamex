@@ -18,6 +18,7 @@ export const global = StyleSheet.create({
   },
   column: {
     alignItems: 'center',
-    padding: 16,
+    padding: 12,
+    marginHorizontal: 20,
   },
 });

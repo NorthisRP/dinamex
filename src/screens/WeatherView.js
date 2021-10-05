@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, ScrollView} from 'react-native';
 import Searcher from './../components/Searcher';
 import WeatherInfo from './../components/WeatherInfo';
 import axios from 'axios';
@@ -14,7 +14,7 @@ export default function WeatherView() {
     icon: '',
   });
   const [recentSearch, setRecentSearch] = useState([]);
-  const {location, error} = usePermission(); //определяем местоположение пользователя
+  const {location, localInfo, error} = usePermission(); //определяем местоположение пользователя
 
   //обработчик нажатия на кнопку в Searcher
   //обращаемся к апихе за погодой по названию города из TextInput в том же компоненте
@@ -46,19 +46,20 @@ export default function WeatherView() {
   };
 
   return (
-    <View>
+    <ScrollView>
       <Searcher fetchWeather={fetchWeather} recentSearch={recentSearch} />
-      {info.name ? <WeatherInfo info={info} /> : null}
-      {error ? null : (
-        <View>
-          <Text>
-            Координаты текущей позиции: lat: {location.lat} long:{' '}
-            {location.long}
-          </Text>
-        </View>
+      {info.name ? (
+        <WeatherInfo info={info} title="Запрошенная погода" />
+      ) : null}
+      {localInfo.name ? (
+        <WeatherInfo info={localInfo} title="Местная погода" />
+      ) : (
+        <Text style={style.loading}>Loading...</Text>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  loading: {textAlign: 'center', fontSize: 24, color: '#00aaff'},
+});
