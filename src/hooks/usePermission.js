@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import {PermissionsAndroid} from 'react-native';
+import {useFetchWeather} from './useFetchWeather';
 import axios from 'axios';
 
 export const usePermission = () => {
@@ -13,6 +14,7 @@ export const usePermission = () => {
     desc: '',
     icon: '',
   });
+  const fetchWeatherAPI = useFetchWeather();
   //получаем boolean разрешение на определение местоположения
   const getPermission = useCallback(async () => {
     try {
@@ -57,27 +59,9 @@ export const usePermission = () => {
     }
   }, []);
 
+  //запрашиваем инфу о погоде в полученном месте
   useEffect(() => {
-    if (location)
-      axios
-        .get('https://community-open-weather-map.p.rapidapi.com/weather', {
-          params: {q: location, lang: 'en', units: 'metric'},
-          headers: {
-            'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
-            'x-rapidapi-key':
-              '31b64b0bf6mshb9c21d9f9f0b9b6p1a0815jsnd5726cca4915',
-          },
-        })
-        .then(res =>
-          setLocalInfo({
-            name: res.data?.name,
-            temp: res.data?.main.temp,
-            humidity: res.data?.main.humidity,
-            desc: res.data?.weather[0].description,
-            icon: res.data?.weather[0].icon,
-          }),
-        )
-        .catch(err => console.error(err));
+    if (location) fetchWeatherAPI(location, setLocalInfo);
   }, [location]);
 
   return {location, localInfo, error};

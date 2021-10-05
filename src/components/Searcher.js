@@ -5,7 +5,7 @@ import axios from 'axios';
 import {global} from '../styles/global.style';
 import {searcher} from '../styles/searcher.style';
 
-export default function Searcher({fetchWeather, recentSearch}) {
+export default function Searcher({fetchWeatherHandler, recentSearch}) {
   const [inputValue, setInputValue] = useState('');
   const [cities, setCities] = useState([]);
 
@@ -69,7 +69,7 @@ export default function Searcher({fetchWeather, recentSearch}) {
       ) : null}
       <View style={global.row}>
         <Button
-          onPress={() => fetchWeather(inputValue)}
+          onPress={() => fetchWeatherHandler(inputValue)}
           icon="magnify"
           mode="contained"
           style={global.button}>
