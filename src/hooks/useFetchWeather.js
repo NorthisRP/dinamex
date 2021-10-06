@@ -22,5 +22,5 @@ export const useFetchWeather = () => {
         }),
       )
       .catch(err => console.error('Такого города не найдено!'));
-  });
+  }, []);
 };
