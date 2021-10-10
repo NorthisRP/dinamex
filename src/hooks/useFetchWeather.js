@@ -21,6 +21,9 @@ export const useFetchWeather = () => {
           icon: res.data?.weather[0].icon,
         }),
       )
-      .catch(err => console.error('Такого города не найдено!'));
+      .catch(err => {
+        if (err.response) console.error('Города не найдено!');
+        else console.error(err);
+      });
   }, []);
 };

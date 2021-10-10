@@ -19,7 +19,8 @@ export default function Searcher({fetchWeatherHandler, recentSearch}) {
       )
       .then(res => setCities(res.data.location.address.slice(0, 5)))
       .catch(err => {
-        console.error('Отсутствует подключение к тырнету');
+        if (err.response) {
+        } else if (err.request) console.error(err);
       });
   };
 
