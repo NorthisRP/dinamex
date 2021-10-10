@@ -23,7 +23,13 @@ export default function WeatherView() {
     if (!city) return;
     fetchWeatherAPI(city, setInfo);
     if (!recentSearch.includes(city)) {
-      setRecentSearch([...recentSearch, city]);
+      setRecentSearch(prev => [...prev, city]);
+      if (recentSearch.length > 3)
+        setRecentSearch(prev =>
+          prev.filter((el, i) => {
+            if (i != 0) return el;
+          }),
+        );
     }
   };
 
